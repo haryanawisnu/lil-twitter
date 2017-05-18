@@ -25,6 +25,13 @@ export const store = new Vuex.Store({
       logusername: '',
       logpassword: ''
     },
+    prof: {
+      _id: '',
+      username: '',
+      password: '',
+      email: '',
+      img_url: '',
+    },
     tweet: {
       status: '',
       author: '',
@@ -38,6 +45,7 @@ export const store = new Vuex.Store({
       created: ''
     },
     list_tweet: [],
+    list_prof: [],
     message: '',
     status: true,
     db: database,
@@ -78,11 +86,15 @@ export const store = new Vuex.Store({
     setMessage(state, data) {
       state.message = data;
     },
+    setprof(state, data) {
+      state.prof = data;
+    },
     seedpopular(state, data) {
       state.popular = data;
     },
     setUser(state, data) {
       state.user = data;
+      state.user.created = tgl.formatdate1(new Date(data.created))
     },
     emptytweet(state) {
       state.tweet.status = '';
@@ -93,17 +105,15 @@ export const store = new Vuex.Store({
       })
       state.list_tweet = data;
     },
+    seedlistprof(state, data) {
+      data.forEach(tmp => {
+        tmp.created = tgl.kapan(new Date(tmp.created))
+      })
+      state.list_prof = data;
+    },
     setfirebase(state, data) {
       state.db.ref('tweet/' + data).set({
         status: Math.floor((Math.random() * 999999999) + 1)
-      });
-    },
-    listenfirebase(state) {
-      var tweet = state.db.ref('tweet/');
-      let self = this;
-      tweet.on('value', function(snapshot) {
-        self.$store.dispatch('seedTweet')
-        console.log('jalan nh');
       });
     },
     tweetReset(state) {
@@ -122,18 +132,29 @@ export const store = new Vuex.Store({
     }) {
       commit('emptyuser');
     },
+    toprofile({
+      commit
+    }, data) {
+      axios.get('http://localhost:3000/tweet/recent/' + data.author._id)
+        .then(function(response) {
+          commit('seedlistprof', response.data)
+          commit('setprof', data.author)
+          router.push('/profile');
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
     seedpopular({
       commit
     }) {
       axios.get('http://localhost:3000/tweet/hastag/popular')
         .then(function(response) {
-          console.log('popular ', response.data.popular);
           commit('seedpopular', response.data.popular)
         })
         .catch(function(error) {
           console.log(error);
         });
-      commit('emptyuser');
     },
     searchhastag({
       commit
@@ -274,8 +295,14 @@ export const store = new Vuex.Store({
     list_tweet(state) {
       return state.list_tweet
     },
+    list_prof(state) {
+      return state.list_prof
+    },
     popular(state) {
       return state.popular
+    },
+    prof(state) {
+      return state.prof
     }
   }
 })

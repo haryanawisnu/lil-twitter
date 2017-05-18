@@ -1,21 +1,21 @@
 <template>
-<div class="groupquestion">
+<div class="singletweet">
   <div class="container">
-    <div v-for="tweet in list_tweet" class="col-sm-8">
+    <div v-for="lp in list_prof" class="col-sm-8">
       <div class="panel panel-white post panel-shadow">
         <div class="post-heading">
           <div class="pull-left image">
-            <img :src="tweet.author.img_url" class="img-circle avatar" alt="user profile image">
+            <img :src="lp.author.img_url" class="img-circle avatar" alt="user profile image">
           </div>
           <div class="pull-left meta">
             <div class="title h5">
-              <a @click="toprofile(tweet)" class="btn"><b>{{tweet.author.username}}</b></a> made a post.
+              <a class="btn"><b>{{lp.author.username}}</b></a> made a post.
             </div>
-            <h6 class="text-muted time" style="margin-right:65px;">{{tweet.created}}</h6>
+            <h6 class="text-muted time" style="margin-right:65px;">{{lp.created}}</h6>
           </div>
         </div>
         <div class="post-description text-left">
-          <p>{{tweet.status}}</p>
+          <p>{{lp.status}}</p>
           <!-- <div class="stats">
             <a href="#" class="btn btn-default stat-item">
                         <i class="fa fa-thumbs-up icon"></i>2
@@ -33,28 +33,11 @@
 
 <script>
 export default {
-  name: 'groupquestion',
+  name: 'singletweet',
   computed: {
-    user() {
-      return this.$store.getters.user
-    },
-    list_tweet() {
-      return this.$store.getters.list_tweet
+    list_prof() {
+      return this.$store.getters.list_prof
     }
-  },
-  methods: {
-    toprofile(params) {
-      this.$store.dispatch('toprofile', params)
-    }
-  },
-  created() {
-    var tweet = this.$store.state.db.ref('tweet/');
-    let self = this;
-    tweet.on('value', function(snapshot) {
-      self.$store.dispatch('seedTweet')
-      self.$store.dispatch('seedpopular')
-      console.log('jalan nh firebase');
-    });
   }
 }
 </script>

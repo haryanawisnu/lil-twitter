@@ -13,8 +13,8 @@
       <ul v-if="!status" class="nav navbar-nav pull-left">
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#ffffff;">POPULAR HASTAG<span class="caret"></span></a>
-          <ul v-for="pop in popular" class="dropdown-menu" role="menu">
-            <li><a @click="searchhastag">pop.name</a></li>
+          <ul class="dropdown-menu" role="menu">
+            <li v-for="popu in popular"><a @click="searchhastag">{{popu.name}}</a></li>
           </ul>
         </li>
       </ul>
@@ -101,7 +101,8 @@ export default {
     searchhastag() {
       this.$store.dispatch('searchhastag', this.searching)
     }
-  }
+  },
+  created() {}
 }
 </script>
 

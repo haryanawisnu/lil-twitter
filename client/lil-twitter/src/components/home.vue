@@ -57,7 +57,6 @@ export default {
   },
   created() {
     this.$store.dispatch('cektoken')
-    this.$store.dispatch('seedpopular')
   }
 }
 </script>
@@ -99,6 +98,7 @@ export default {
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
 }
+
 
 
 
