@@ -3,13 +3,21 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import navbar from '@/components/navbar'
+import {
+  store
+} from './store/tweet'
 
 Vue.config.productionTip = false
 
+Vue.component('navbar', navbar)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
-  components: { App }
+  components: {
+    App
+  }
 })

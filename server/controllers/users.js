@@ -37,6 +37,7 @@ let userControllers = {
           $set: {
             username: req.body.username || result.username,
             email: req.body.email || result.email,
+            img_url: req.body.img_url || result.img_url,
             password: passwordHash.generate(req.body.password) || result.password
           }
         }, function(err, result) {
@@ -54,11 +55,15 @@ let userControllers = {
   create: (req, res, next) => {
     User.create({
       username: req.body.username,
+      img_url: req.body.img_url,
       password: passwordHash.generate(req.body.password),
       email: req.body.email
     }, function(err, result) {
       if (result) {
-        res.send(result);
+        res.send({
+          data: result,
+          token: jwthelpers.sign(result),
+        });
       } else {
         res.send(err);
       }

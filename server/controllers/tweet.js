@@ -50,6 +50,7 @@ let tweetControllers = {
   showHastag: function(req, res) {
     hastag = [];
     let val = req.params.hastag;
+    val = '#' + val;
     Tweet.find().populate(['author', 'answer.author']).exec((err, result) => {
       if (err) {
         res.send(err);
@@ -91,6 +92,7 @@ let tweetControllers = {
             }
           })
         })
+        popular.slice(0, 10)
         res.send({
           popular: popular.sort(function(a, b) {
             return b.count - a.count

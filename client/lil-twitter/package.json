@@ -10,6 +10,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "firebase": "^4.0.0",
+    "firebase-admin": "^5.0.0",
+    "tgl": "^1.1.1",
     "vue": "^2.2.6",
     "vue-router": "^2.3.1",
     "vuex": "^2.3.1"

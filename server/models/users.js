@@ -5,6 +5,7 @@ let userSchema = new Schema({
   username: String,
   email: String,
   password: String,
+  img_url: String,
   created: Date
 });
 
